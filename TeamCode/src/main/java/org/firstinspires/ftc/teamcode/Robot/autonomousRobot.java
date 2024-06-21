@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.Odometry;
 import org.firstinspires.ftc.teamcode.PIDController;
 import org.firstinspires.ftc.teamcode.Subsystems.Climber;
 import org.firstinspires.ftc.teamcode.Subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.Subsystems.Hooker;
 import org.firstinspires.ftc.teamcode.Subsystems.Slide;
 
 public class autonomousRobot {
@@ -25,7 +26,7 @@ public class autonomousRobot {
     private Odometry odometry;
     private Slide slide;
     private Climber climber;
-    private boolean servoState = false;
+    private Hooker hooker;
     private boolean Climbed = false;
     private boolean ReachedParkingPosition = false;
     private boolean auto = true;
@@ -36,6 +37,7 @@ public class autonomousRobot {
         drivetrain = new Drivetrain(opMode);
         slide = new Slide(opMode);
         climber = new Climber(opMode);
+        hooker = new Hooker(opMode);
         imu = opMode.hardwareMap.get(IMU.class, "imu");
         gamepad = opMode.gamepad1;
     }
@@ -44,6 +46,7 @@ public class autonomousRobot {
         drivetrain.init();
         slide.init();
         climber.init();
+        hooker.init();
 
         IMU.Parameters imuParams = new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP,
                 RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
@@ -76,10 +79,14 @@ public class autonomousRobot {
         } else {
             drivetrain.setDrivePower(-gamepad.left_stick_y,-gamepad.right_stick_y);
 
-            if (gamepad.right_bumper) servoState = true;
-            climber.setServo(servoState);
+            if (gamepad.circle) climber.setState();
 
-            climber.setMotor(gamepad.right_trigger);
+            if (gamepad.right_trigger != 0) climber.setMotor(gamepad.right_trigger);
+            else if (gamepad.left_trigger != 0) climber.setMotor(-gamepad.left_trigger);
+            else climber.setMotor(0);
+
+            if (gamepad.dpad_left) hooker.setStateLeft();
+            if (gamepad.dpad_right) hooker.setStateRight();
         }
     }
 }

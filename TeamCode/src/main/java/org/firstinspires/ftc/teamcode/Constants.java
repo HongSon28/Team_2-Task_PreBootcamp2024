@@ -18,7 +18,7 @@ public class Constants {
         public static final Pose2d START_POSE = new Pose2d(0,0,new Rotation2d(0));
         public static final double TO_INCH_LEFT = 1;
         public static final double TO_INCH_RIGHT = 1;
-        public static final double TARGET_X = 5;
+        public static final double TARGET_X = 100;
         public static final double TARGET_Y = 0;
         public static final double X_TOLERANT = 0.1;
         public static final double Y_TOLERANT = 0.1;
@@ -30,7 +30,7 @@ public class Constants {
         public static PIDCoefficients DRIVE_ROT_PID = new PIDCoefficients(0.01, 0.0, 0.0);
     }
     public static final class AUTONOMOUS {
-        public static double RETRACTING_POSITION = 7.5;
-        public static double PARKING_POSITION = 20;
+        public static double RETRACTING_POSITION = 15;
+        public static double PARKING_POSITION = 30;
     }
 }
